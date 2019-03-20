@@ -1,0 +1,67 @@
+mysql> select * from employee,department,country where employee.dept_id=department.dept_id and country.id=employee.country_id;
++----+---------+------+---------+------------+--------+---------+-----------+-----------+----+------+----------------+---------------------+
+| id | name    | age  | dept_id | country_id | sal    | dept_id | dept_code | dept_name | ID | CODE | NAME           | update_time         |
++----+---------+------+---------+------------+--------+---------+-----------+-----------+----+------+----------------+---------------------+
+|  1 | Rudra   |   27 |       1 |          1 |  50000 |       1 | IT01      | IT        |  1 | IND  | India          | 0000-00-00 00:00:00 |
+|  2 | Raima   |   23 |       2 |          2 |  60000 |       2 | SE01      | SWE       |  2 | UK   | United Kingdom | 0000-00-00 00:00:00 |
+|  3 | Debjani |   31 |       1 |          1 | 100000 |       1 | IT01      | IT        |  1 | IND  | India          | 0000-00-00 00:00:00 |
+|  4 | Piyali  |   25 |       3 |          3 |  30000 |       3 | LK01      | L&K       |  3 | USA  | America        | 2019-03-19 09:39:52 |
+|  5 | Kritti  |   28 |       4 |          3 |  25000 |       4 | TS01      | TESTING   |  3 | USA  | America        | 2019-03-19 09:39:52 |
+|  6 | Ananda  |   32 |       3 |          1 |  45000 |       3 | LK01      | L&K       |  1 | IND  | India          | 0000-00-00 00:00:00 |
+|  7 | Abhi    |   32 |       2 |          2 |  55000 |       2 | SE01      | SWE       |  2 | UK   | United Kingdom | 0000-00-00 00:00:00 |
++----+---------+------+---------+------------+--------+---------+-----------+-----------+----+------+----------------+---------------------+
+7 rows in set (0.00 sec)
+
+mysql> select count(*),dept_name from employee,department where department.dept_id=employee.dept_id group by (dept_name) ;
++----------+-----------+
+| count(*) | dept_name |
++----------+-----------+
+|        2 | IT        |
+|        2 | L&K       |
+|        2 | SWE       |
+|        1 | TESTING   |
++----------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select dept_name, sal from department,employee where department.dept_id=employee.dept_id and sal>50000;
++-----------+--------+
+| dept_name | sal    |
++-----------+--------+
+| SWE       |  60000 |
+| IT        | 100000 |
+| SWE       |  55000 |
++-----------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select avg(sal),department.dept_name, country.name from employee, department, country where employee.dept_id=department.dept_id and employee.country_id=country.id group by dept_name,country.name;
++------------+-----------+----------------+
+| avg(sal)   | dept_name | name           |
++------------+-----------+----------------+
+| 75000.0000 | IT        | India          |
+| 30000.0000 | L&K       | America        |
+| 45000.0000 | L&K       | India          |
+| 57500.0000 | SWE       | United Kingdom |
+| 25000.0000 | TESTING   | America        |
++------------+-----------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> select dept_name,country.name,count(employee.id) from country, department, employee where employee.dept_id=department.dept_id and country.id=employee.country_id group by country.name,dept_name having count(employee.id)>1 order by dept_name;
++-----------+----------------+--------------------+
+| dept_name | name           | count(employee.id) |
++-----------+----------------+--------------------+
+| IT        | India          |                  2 |
+| SWE       | United Kingdom |                  2 |
++-----------+----------------+--------------------+
+2 rows in set (0.02 sec)
+
+mysql> select count(employee.name), any_value(employee.name), dept_name from employee,department,country where employee.name like "%R%" and employee.dept_id=department.dept_id and country.id=employee.country_id group by dept_name;
++----------------------+--------------------------+-----------+
+| count(employee.name) | any_value(employee.name) | dept_name |
++----------------------+--------------------------+-----------+
+|                    1 | Rudra                    | IT        |
+|                    1 | Raima                    | SWE       |
+|                    1 | Kritti                   | TESTING   |
++----------------------+--------------------------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> 

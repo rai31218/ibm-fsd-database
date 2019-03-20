@@ -1,0 +1,325 @@
+mysql> select e1.firstName ,count(*) from employees e1 ,employees e2 where e1.employeeNumber=e2.reportsTo group by e2.reportsTo;
++-----------+----------+
+| firstName | count(*) |
++-----------+----------+
+| Diane     |        2 |
+| Mary      |        4 |
+| William   |        3 |
+| Gerard    |        6 |
+| Anthony   |        6 |
+| Mami      |        1 |
++-----------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select  count(distinct productName), customerName from products p, customers c, orders o, orderdetails ord where c.customerNumber=o.customerNumber and o.orderNumber=ord.orderNumber and ord.ProductCode=p.productCode group by c.customerNumber order by count(distinct productName) desc;
++-----------------------------+------------------------------------+
+| count(distinct productName) | customerName                       |
++-----------------------------+------------------------------------+
+|                         106 | Euro+ Shopping Channel             |
+|                          77 | Mini Gifts Distributors Ltd.       |
+|                          45 | Kelly's Gift Shop                  |
+|                          44 | Souveniers And Things Co.          |
+|                          43 | La Rochelle Gifts                  |
+|                          42 | Down Under Souveniers, Inc         |
+|                          41 | Land of Toys Inc.                  |
+|                          41 | Saveley & Henriot, Co.             |
+|                          41 | Anna's Decorations, Ltd            |
+|                          40 | Australian Collectors, Co.         |
+|                          40 | Corporate Gift Ideas Co.           |
+|                          39 | The Sharp Gifts Warehouse          |
+|                          39 | L'ordine Souveniers                |
+|                          38 | Scandinavian Gift Ideas            |
+|                          37 | AV Stores, Co.                     |
+|                          37 | Dragon Souveniers, Ltd.            |
+|                          37 | Reims Collectables                 |
+|                          36 | Salzburg Collectables              |
+|                          34 | Rovelli Gifts                      |
+|                          34 | Online Diecast Creations Co.       |
+|                          34 | Mini Creations Ltd.                |
+|                          32 | Tokyo Collectables, Ltd            |
+|                          32 | Muscle Machine Inc                 |
+|                          32 | Baane Mini Imports                 |
+|                          31 | Oulu Toy Supplies, Inc.            |
+|                          31 | Danish Wholesale Imports           |
+|                          31 | Diecast Classics Inc.              |
+|                          30 | Suominen Souveniers                |
+|                          30 | Technics Stores Inc.               |
+|                          30 | Toys of Finland, Co.               |
+|                          29 | Handji Gifts& Co                   |
+|                          29 | Extreme Desk Decorations, Ltd      |
+|                          29 | Toys4GrownUps.com                  |
+|                          29 | Herkku Gifts                       |
+|                          29 | UK Collectables, Ltd.              |
+|                          27 | Heintze Collectables               |
+|                          27 | Marta's Replicas Co.               |
+|                          26 | giftsbymail.co.uk                  |
+|                          26 | Mini Classics                      |
+|                          26 | Corrida Auto Replicas, Ltd         |
+|                          26 | Stylish Desk Decors, Co.           |
+|                          26 | FunGiftIdeas.com                   |
+|                          26 | Amica Models & Co.                 |
+|                          26 | Royal Canadian Collectables, Ltd.  |
+|                          26 | GiftsForHim.com                    |
+|                          25 | Vitachrome Inc.                    |
+|                          25 | Collectable Mini Designs Co.       |
+|                          25 | Gift Depot Inc.                    |
+|                          24 | Signal Gift Stores                 |
+|                          24 | Marseille Mini Autos               |
+|                          24 | Norway Gifts By Mail, Co.          |
+|                          24 | Collectables For Less Inc.         |
+|                          23 | Australian Collectables, Ltd       |
+|                          22 | La Corne D'abondance, Co.          |
+|                          22 | Blauer See Auto, Co.               |
+|                          22 | Qu‚bec Home Shopping Network       |
+|                          22 | Cruz & Sons Co.                    |
+|                          22 | Enaco Distributors                 |
+|                          21 | Gifts4AllAges.com                  |
+|                          21 | Classic Gift Ideas, Inc            |
+|                          21 | Tekni Collectables Inc.            |
+|                          20 | Osaka Souveniers Co.               |
+|                          20 | Classic Legends Inc.               |
+|                          20 | Alpha Cognac                       |
+|                          20 | Lyon Souveniers                    |
+|                          20 | Petit Auto                         |
+|                          19 | Mini Caravy                        |
+|                          19 | Canadian Gift Exchange Network     |
+|                          19 | Gift Ideas Corp.                   |
+|                          19 | Volvo Model Replicas, Co           |
+|                          19 | Mini Wheels Co.                    |
+|                          18 | Auto Canal+ Petit                  |
+|                          18 | Diecast Collectables               |
+|                          17 | Vida Sport, Ltd                    |
+|                          17 | Auto Associ‚s & Cie.               |
+|                          17 | Toms Spezialit„ten, Ltd            |
+|                          17 | Super Scale Inc.                   |
+|                          17 | Motor Mint Distributors Inc.       |
+|                          16 | Clover Collections, Co.            |
+|                          15 | Signal Collectibles Ltd.           |
+|                          15 | Mini Auto Werke                    |
+|                          15 | Online Mini Collectables           |
+|                          15 | Iberia Gift Imports, Corp.         |
+|                          15 | Australian Gift Network, Co        |
+|                          14 | Men 'R' US Retailers, Ltd.         |
+|                          14 | Daedalus Designs Imports           |
+|                          14 | Bavarian Collectables Imports, Co. |
+|                          13 | West Coast Collectables Co.        |
+|                          13 | CAF Imports                        |
+|                          12 | King Kong Collectables, Co.        |
+|                          12 | Double Decker Gift Stores, Ltd     |
+|                          11 | Cambridge Collectables Co.         |
+|                          10 | Microscale Inc.                    |
+|                           8 | Royale Belge                       |
+|                           8 | Frau da Collezione                 |
+|                           8 | Auto-Moto Classics Inc.            |
+|                           7 | Atelier graphique                  |
+|                           3 | Boards & Toys Co.                  |
++-----------------------------+------------------------------------+
+98 rows in set (0.01 sec)
+
+mysql> select sum(ord.quantityOrdered), p.productName from payments pay, products p, customers c, orders o, orderdetails ord where c.customerNumber=o.customerNumber and o.orderNumber=ord.orderNumber and ord.ProductCode=p.productCode and c.customerNumber=pay.customerNumber group by p.productName;
++--------------------------+---------------------------------------------+
+| sum(ord.quantityOrdered) | productName                                 |
++--------------------------+---------------------------------------------+
+|                     4011 | 18th century schooner                       |
+|                     3202 | 18th Century Vintage Horse Carriage         |
+|                     3119 | 1900s Vintage Bi-Plane                      |
+|                     3648 | 1900s Vintage Tri-Plane                     |
+|                     4603 | 1903 Ford Model A                           |
+|                     4400 | 1904 Buick Runabout                         |
+|                     2954 | 1911 Ford Town Car                          |
+|                     3347 | 1912 Ford Model T Delivery Wagon            |
+|                     3501 | 1913 Ford Model T Speedster                 |
+|                     3439 | 1917 Grand Touring Sedan                    |
+|                     3916 | 1917 Maxwell Touring Car                    |
+|                     4263 | 1926 Ford Fire Engine                       |
+|                     3677 | 1928 British Royal Navy Airplane            |
+|                     3375 | 1928 Ford Phaeton Deluxe                    |
+|                     4134 | 1928 Mercedes-Benz SSK                      |
+|                     3843 | 1930 Buick Marquette Phaeton                |
+|                     3420 | 1932 Alfa Romeo 8C2300 Spider Sport         |
+|                     3582 | 1932 Model A Ford J-Coupe                   |
+|                     3305 | 1934 Ford V8 Coupe                          |
+|                     3863 | 1936 Chrysler Airflow                       |
+|                     3078 | 1936 Harley Davidson El Knucklehead         |
+|                     3358 | 1936 Mercedes Benz 500k Roadster            |
+|                     3632 | 1936 Mercedes-Benz 500K Special Roadster    |
+|                     3036 | 1937 Horch 930V Limousine                   |
+|                     4429 | 1937 Lincoln Berline                        |
+|                     4082 | 1938 Cadillac V-16 Presidential Limousine   |
+|                     4473 | 1939 Cadillac Limousine                     |
+|                     3827 | 1939 Chevrolet Deluxe Coupe                 |
+|                     3508 | 1940 Ford Delivery Sedan                    |
+|                     4176 | 1940 Ford Pickup Truck                      |
+|                     3846 | 1940s Ford truck                            |
+|                     3201 | 1941 Chevrolet Special Deluxe Cabriolet     |
+|                     3695 | 1948 Porsche 356-A Roadster                 |
+|                     3803 | 1948 Porsche Type 356 Roadster              |
+|                     4799 | 1949 Jaguar XK 120                          |
+|                     4871 | 1950's Chicago Surface Lines Streetcar      |
+|                     3706 | 1952 Alpine Renault 1300                    |
+|                     4212 | 1952 Citroen-15CV                           |
+|                     5107 | 1954 Greyhound Scenicruiser                 |
+|                     5066 | 1956 Porsche 356A Coupe                     |
+|                     5746 | 1957 Chevy Pickup                           |
+|                     4021 | 1957 Corvette Convertible                   |
+|                     3225 | 1957 Ford Thunderbird                       |
+|                     3628 | 1957 Vespa GS150                            |
+|                     6151 | 1958 Chevy Corvette Limited Edition         |
+|                     3933 | 1958 Setra Bus                              |
+|                     2809 | 1960 BSA Gold Star DBD34                    |
+|                     3527 | 1961 Chevrolet Impala                       |
+|                     4847 | 1962 City of Detroit Streetcar              |
+|                     3239 | 1962 LanciaA Delta 16V                      |
+|                     5170 | 1962 Volkswagen Microbus                    |
+|                     5039 | 1964 Mercedes Tour Bus                      |
+|                     3548 | 1965 Aston Martin DB5                       |
+|                     3835 | 1966 Shelby Cobra 427 S/C                   |
+|                     3389 | 1968 Dodge Charger                          |
+|                     3092 | 1968 Ford Mustang                           |
+|                     4437 | 1969 Chevrolet Camaro Z28                   |
+|                     4734 | 1969 Corvair Monza                          |
+|                     3746 | 1969 Dodge Charger                          |
+|                     3916 | 1969 Dodge Super Bee                        |
+|                     4149 | 1969 Ford Falcon                            |
+|                     3730 | 1969 Harley Davidson Ultimate Chopper       |
+|                     3982 | 1970 Chevy Chevelle SS 454                  |
+|                     5355 | 1970 Dodge Coronet                          |
+|                     3089 | 1970 Plymouth Hemi Cuda                     |
+|                     4514 | 1970 Triumph Spitfire                       |
+|                     4474 | 1971 Alpine Renault 1600s                   |
+|                     2895 | 1972 Alfa Romeo GTA                         |
+|                     3752 | 1974 Ducati 350 Mk3 Desmo                   |
+|                     4151 | 1976 Ford Gran Torino                       |
+|                     3340 | 1980s Black Hawk Helicopter                 |
+|                     3722 | 1980?s GM Manhattan Express                 |
+|                     4368 | 1982 Camaro Z28                             |
+|                     3769 | 1982 Ducati 900 Monster                     |
+|                     4096 | 1982 Ducati 996 R                           |
+|                     4125 | 1982 Lamborghini Diablo                     |
+|                     8468 | 1992 Ferrari 360 Spider red                 |
+|                     4649 | 1992 Porsche Cayenne Turbo Silver           |
+|                     3206 | 1993 Mazda RX-7                             |
+|                     3201 | 1995 Honda Civic                            |
+|                     3300 | 1996 Moto Guzzi 1100i                       |
+|                     4301 | 1996 Peterbilt 379 Stake Bed with Outrigger |
+|                     2862 | 1997 BMW F650 ST                            |
+|                     3345 | 1997 BMW R 1100 S                           |
+|                     4878 | 1998 Chrysler Plymouth Prowler              |
+|                     3547 | 1999 Indy 500 Monte Carlo SS                |
+|                     3594 | 1999 Yamaha Speed Boat                      |
+|                     4026 | 2001 Ferrari Enzo                           |
+|                     4769 | 2002 Chevy Corvette                         |
+|                     3107 | 2002 Suzuki XREO                            |
+|                     3527 | 2002 Yamaha YZR M1                          |
+|                     3398 | 2003 Harley-Davidson Eagle Drag Bike        |
+|                     3175 | America West Airlines B757-200              |
+|                     3528 | American Airlines: B767-300                 |
+|                     3552 | American Airlines: MD-11S                   |
+|                     2785 | ATA: B757-300                               |
+|                     3166 | Boeing X-32A JSF                            |
+|                     4414 | Collectable Wooden Train                    |
+|                     3592 | Corsair F4U ( Bird Cage)                    |
+|                     5027 | Diamond T620 Semi-Skirted Tanker            |
+|                     3402 | F/A 18 Hornet 1/72                          |
+|                     3014 | HMS Bounty                                  |
+|                     3176 | P-51-D Mustang                              |
+|                     4027 | Pont Yacht                                  |
+|                     3932 | The Mayflower                               |
+|                     3472 | The Queen Mary                              |
+|                     4052 | The Schooner Bluenose                       |
+|                     4008 | The Titanic                                 |
+|                     3395 | The USS Constitution Ship                   |
++--------------------------+---------------------------------------------+
+109 rows in set (0.06 sec)
+
+mysql> select count(ord.quantityOrdered), (select month(o.orderDate)), p.productLine from orders o, orderDetails ord, products p where o.orderNumber=ord.orderNumber and ord.productCode=p.productCode group by p.productLine,(select month(o.orderDate));
++----------------------------+-----------------------------+------------------+
+| count(ord.quantityOrdered) | (select month(o.orderDate)) | productLine      |
++----------------------------+-----------------------------+------------------+
+|                         78 |                           1 | Classic Cars     |
+|                         74 |                           2 | Classic Cars     |
+|                         70 |                           3 | Classic Cars     |
+|                         63 |                           4 | Classic Cars     |
+|                         90 |                           5 | Classic Cars     |
+|                         46 |                           6 | Classic Cars     |
+|                         64 |                           7 | Classic Cars     |
+|                         65 |                           8 | Classic Cars     |
+|                         60 |                           9 | Classic Cars     |
+|                        112 |                          10 | Classic Cars     |
+|                        219 |                          11 | Classic Cars     |
+|                         69 |                          12 | Classic Cars     |
+|                         24 |                           1 | Motorcycles      |
+|                         34 |                           2 | Motorcycles      |
+|                         18 |                           3 | Motorcycles      |
+|                         40 |                           4 | Motorcycles      |
+|                         33 |                           5 | Motorcycles      |
+|                         14 |                           6 | Motorcycles      |
+|                         19 |                           7 | Motorcycles      |
+|                         31 |                           8 | Motorcycles      |
+|                         14 |                           9 | Motorcycles      |
+|                         33 |                          10 | Motorcycles      |
+|                         71 |                          11 | Motorcycles      |
+|                         28 |                          12 | Motorcycles      |
+|                         17 |                           1 | Planes           |
+|                         31 |                           2 | Planes           |
+|                         27 |                           3 | Planes           |
+|                         33 |                           4 | Planes           |
+|                         24 |                           5 | Planes           |
+|                         24 |                           6 | Planes           |
+|                         12 |                           7 | Planes           |
+|                         24 |                           8 | Planes           |
+|                         12 |                           9 | Planes           |
+|                         36 |                          10 | Planes           |
+|                         66 |                          11 | Planes           |
+|                         30 |                          12 | Planes           |
+|                         18 |                           1 | Ships            |
+|                         21 |                           2 | Ships            |
+|                         24 |                           3 | Ships            |
+|                         11 |                           4 | Ships            |
+|                         18 |                           5 | Ships            |
+|                         18 |                           6 | Ships            |
+|                          9 |                           7 | Ships            |
+|                         18 |                           8 | Ships            |
+|                         15 |                           9 | Ships            |
+|                         27 |                          10 | Ships            |
+|                         48 |                          11 | Ships            |
+|                         18 |                          12 | Ships            |
+|                          7 |                           1 | Trains           |
+|                          7 |                           2 | Trains           |
+|                          6 |                           3 | Trains           |
+|                          3 |                           4 | Trains           |
+|                          6 |                           5 | Trains           |
+|                          6 |                           6 | Trains           |
+|                          3 |                           7 | Trains           |
+|                          6 |                           8 | Trains           |
+|                          6 |                           9 | Trains           |
+|                          9 |                          10 | Trains           |
+|                         15 |                          11 | Trains           |
+|                          7 |                          12 | Trains           |
+|                         23 |                           1 | Trucks and Buses |
+|                         21 |                           2 | Trucks and Buses |
+|                         25 |                           3 | Trucks and Buses |
+|                          8 |                           4 | Trucks and Buses |
+|                         40 |                           5 | Trucks and Buses |
+|                         15 |                           6 | Trucks and Buses |
+|                         18 |                           7 | Trucks and Buses |
+|                         15 |                           8 | Trucks and Buses |
+|                         22 |                           9 | Trucks and Buses |
+|                         33 |                          10 | Trucks and Buses |
+|                         62 |                          11 | Trucks and Buses |
+|                         26 |                          12 | Trucks and Buses |
+|                         62 |                           1 | Vintage Cars     |
+|                         38 |                           2 | Vintage Cars     |
+|                         62 |                           3 | Vintage Cars     |
+|                         45 |                           4 | Vintage Cars     |
+|                         50 |                           5 | Vintage Cars     |
+|                         32 |                           6 | Vintage Cars     |
+|                         40 |                           7 | Vintage Cars     |
+|                         32 |                           8 | Vintage Cars     |
+|                         42 |                           9 | Vintage Cars     |
+|                         73 |                          10 | Vintage Cars     |
+|                        135 |                          11 | Vintage Cars     |
+|                         46 |                          12 | Vintage Cars     |
++----------------------------+-----------------------------+------------------+
+84 rows in set (0.03 sec)
+
